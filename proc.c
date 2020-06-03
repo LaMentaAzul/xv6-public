@@ -553,12 +553,13 @@ getprocess(void)
       count ++;
     }    
   }
-
+  
+ //ascending
   for (int i = 0; i < NPROC; i++) 
   {
     for (int j = i+1; j < NPROC; j++)
     {
-      if (proccess[i].memsize < proccess[j].memsize)
+      if (proccess[i].memsize > proccess[j].memsize)
       {
         struct proc_info temp = proccess[i] ;
 
