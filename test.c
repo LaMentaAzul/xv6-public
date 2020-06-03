@@ -42,7 +42,7 @@ main(void)
             int Number = getprocess(maxProcess, processes);
             for (int i = 0; i < Number; i++)
             {
-                printf(processes[i].pid, processes[i].memsize);
+                printf(2, processes[i].pid, processes[i].memsize);
             }
         }
     }
