@@ -82,6 +82,7 @@ argstr(int n, char **pp)
   return fetchstr(addr, pp);
 }
 
+extern int sys_getprocess(void);
 extern int sys_chdir(void);
 extern int sys_close(void);
 extern int sys_dup(void);

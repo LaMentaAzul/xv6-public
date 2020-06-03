@@ -534,7 +534,8 @@ procdump(void)
 }
 
 // System Call that gets the process info: Sorting by the memory size of the process
-int getProcess(void)
+int 
+getprocess(void)
 {
   int max;
   int count =0;
