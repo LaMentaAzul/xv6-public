@@ -534,22 +534,25 @@ procdump(void)
 }
 
 // System Call that gets the process info: Sorting by the memory size of the process
-getprocs(void)
+int getProcess(void)
 {
   int max;
-  struct proc *p;
   int count =0;
+  struct proc *p;
   struct proc_info *proccess ;
+
   argint(0, &max);
   argptr(1, (char **)&proccess, max*sizeof(struct proc_info));
+
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
     if(p->state == UNUSED) continue;
     if(p->state == RUNNABLE || p->state == RUNNING){
-      proccess[count].pid = p->pid;
-      proccess[count].memsize = p->sz;
+      proccess[count].pid = p -> pid;
+      proccess[count].memsize = p -> sz;
       count ++;
     }    
   }
+
   for (int i = 0; i < NPROC; i++) 
   {
     for (int j = i+1; j < NPROC; j++)
