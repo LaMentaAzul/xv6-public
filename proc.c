@@ -540,16 +540,16 @@ getprocess(void)
   int max;
   int count =0;
   struct proc *p;
-  struct proc_info *proccess ;
+  struct proc_info *process ;
 
   argint(0, &max);
-  argptr(1, (char **)&proccess, max*sizeof(struct proc_info));
+  argptr(1, (char **)&process, max*sizeof(struct proc_info));
 
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
     if(p->state == UNUSED) continue;
     if(p->state == RUNNABLE || p->state == RUNNING){
-      proccess[count].pid = p -> pid;
-      proccess[count].memsize = p -> sz;
+      process[count].pid = p -> pid;
+      process[count].memsize = p -> sz;
       count ++;
     }    
   }
@@ -559,18 +559,18 @@ getprocess(void)
   {
     for (int j = i+1; j < NPROC; j++)
     {
-      if (proccess[i].memsize > proccess[j].memsize)
+      if (process[i].memsize > process[j].memsize)
       {
-        struct proc_info temp = proccess[i] ;
+        struct proc_info temp = process[i] ;
 
-        temp.pid = proccess[i].pid;
-        temp.memsize = proccess[i].memsize;
+        temp.pid = process[i].pid;
+        temp.memsize = process[i].memsize;
 
-        proccess[i].pid = proccess[j].pid;
-        proccess[i].memsize = proccess[j].memsize;
+        process[i].pid = process[j].pid;
+        process[i].memsize = process[j].memsize;
 
-        proccess[j].pid = temp.pid;
-        proccess[j].memsize = temp.memsize;
+        process[j].pid = temp.pid;
+        process[j].memsize = temp.memsize;
       }
     }
 
