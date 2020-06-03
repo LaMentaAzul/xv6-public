@@ -77,6 +77,12 @@ sys_sleep(void)
   return 0;
 }
 
+int
+sys_getprocess(void)
+{
+  return getprocess();
+} 
+
 // return how many clock tick interrupts have occurred
 // since start.
 int
