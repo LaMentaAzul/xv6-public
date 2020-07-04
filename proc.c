@@ -112,6 +112,13 @@ found:
   memset(p->context, 0, sizeof *p->context);
   p->context->eip = (uint)forkret;
 
+  // add new parameters for the waitx system call
+  p->stime = time;
+  p->etime = 0;
+  p->iotime = 0;
+  p->rtime = 0;
+  
+
   return p;
 }
 
@@ -260,6 +267,9 @@ exit(void)
         wakeup1(initproc);
     }
   }
+
+  // finish time
+  curproc ->etime = time;
 
   // Jump into the scheduler, never to return.
   curproc->state = ZOMBIE;
