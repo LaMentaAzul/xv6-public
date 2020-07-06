@@ -118,6 +118,8 @@ found:
   p->iotime = 0;
   p->rtime = 0;
   
+  // define priority
+   p->priority = 60;
 
   return p;
 }
@@ -384,19 +386,37 @@ waitx(int *wtime, int *rtime)
 void
 scheduler(void)
 {
-  struct proc *p;
+  struct proc *p, *t;
   struct cpu *c = mycpu();
   c->proc = 0;
   
   for(;;){
+
     // Enable interrupts on this processor.
     sti();
+    
+    //High Priority
+    struct proc *hpriority
 
     // Loop over process table looking for process to run.
     acquire(&ptable.lock);
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
       if(p->state != RUNNABLE)
         continue;
+
+     //schedule priority
+      hpriority = p;
+      for (t = ptable.proc; t < &ptable.proc[NPROC]; t++)
+      {
+        if (t->state != RUNNABLE)
+          continue;
+
+        if(hpriority -> priority > t->priority)
+          hpriority = t;  
+      }
+      p = hpriority; 
+
+
 
       // Switch to chosen process.  It is the process's job
       // to release ptable.lock and then reacquire it
@@ -593,4 +613,24 @@ procdump(void)
     }
     cprintf("\n");
   }
+}
+
+//set new priority
+int
+set_priority(int pid, int value){
+  struct proc *p;
+  int oldpriority = -1;
+
+  acquire(&ptable.lock);
+  for (p  = ptable.proc; p < &ptable.proc[NPROC]; p++)
+  {
+    if (p->pid == pid)
+    {
+      oldpriority = p->priority;
+      p->priority = value;
+      break;
+    }
+  }
+  release(&ptable.lock);
+  return oldpriority;
 }
