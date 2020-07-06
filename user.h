@@ -5,6 +5,7 @@ struct rtcdate;
 int fork(void);
 int exit(void) __attribute__((noreturn));
 int wait(void);
+
 //define waitx in user mode
 int waitx(int *, int*);
 
@@ -26,6 +27,9 @@ int getpid(void);
 char* sbrk(int);
 int sleep(int);
 int uptime(void);
+
+//define set priority in user mode
+int set_priority(int, int);
 
 // ulib.c
 int stat(const char*, struct stat*);
