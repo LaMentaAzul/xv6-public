@@ -321,6 +321,58 @@ wait(void)
   }
 }
 
+//Wait function
+int
+waitx(int *wtime, int *rtime)
+{
+  struct proc *process;
+  int havekids, pid;
+  struct  proc *curproc = myproc();
+
+  acquire(&ptable.lock);
+
+//exit status children finder
+  for(;;){
+    havekids = 0;
+    for(process = ptable.proc; process < &ptable.proc[NPROC]; process++){
+      if(process->parent != curproc)
+        continue;
+
+      havekids = 1;
+      if(process->state == ZOMBIE){
+
+
+        //update time attributes
+        *wtime = process->etime - process->stime - process->rtime - process->iotime;
+        *rtime = process->rtime;
+
+       
+        pid = process->pid;
+        kfree(process->kstack);
+        process->kstack = 0;
+        freevm(process->pgdir);
+        process->state = UNUSED;
+
+        process->parent = 0;
+        process->name[0] = 0;
+        process->pid = 0;
+        process->killed = 0;
+        release(&ptable.lock);
+        return pid;
+      }
+    }
+
+    // if we dont have any children, then no wait is required
+    if(!havekids || curproc->killed){
+      release(&ptable.lock);
+      return -1;
+    }
+
+    // Wait for children to exit.  (See wakeup1 call in proc_exit.)
+    sleep(curproc, &ptable.lock);  //DOC: wait-sleep
+  }
+}
+
 //PAGEBREAK: 42
 // Per-CPU process scheduler.
 // Each CPU calls scheduler() after setting itself up.
