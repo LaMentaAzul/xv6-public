@@ -36,7 +36,7 @@ sys_waitx(void)
   //get argument from user mode
   if(argptr(0, (char **)&wtime, sizeof(int)) < 0)
     return -1;
-  if(argptr(1, (char **)&wtime, sizeof(int)) < 0)
+  if(argptr(1, (char **)&rtime, sizeof(int)) < 0)
     return -1;
   return waitx(wtime, rtime);    
 }
