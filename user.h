@@ -5,6 +5,9 @@ struct rtcdate;
 int fork(void);
 int exit(void) __attribute__((noreturn));
 int wait(void);
+//define waitx in user mode
+int waitx(int *, int*);
+
 int pipe(int*);
 int write(int, const void*, int);
 int read(int, void*, int);
