@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
         {
             printf(1, "%d", i);
         }
-        child_pid = waitx(&wtime, &rtime);
+        childpid = waitx(&wtime, &rtime);
 
         printf(1, "\n wait time : %d , RunTime : %d childpid : %d\n", wtime, rtime , childpid);
     }
