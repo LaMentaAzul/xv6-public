@@ -113,7 +113,7 @@ found:
   p->context->eip = (uint)forkret;
 
   // add new parameters for the waitx system call
-  p->stime = time;
+  p->stime = ticks;
   p->etime = 0;
   p->iotime = 0;
   p->rtime = 0;
@@ -271,7 +271,7 @@ exit(void)
   }
 
   // finish time
-  curproc ->etime = time;
+  curproc ->etime = ticks;
 
   // Jump into the scheduler, never to return.
   curproc->state = ZOMBIE;
@@ -396,7 +396,7 @@ scheduler(void)
     sti();
     
     //High Priority
-    struct proc *hpriority
+    struct proc *HP;
 
     // Loop over process table looking for process to run.
     acquire(&ptable.lock);
@@ -405,16 +405,16 @@ scheduler(void)
         continue;
 
      //schedule priority
-      hpriority = p;
+      HP= p;
       for (t = ptable.proc; t < &ptable.proc[NPROC]; t++)
       {
         if (t->state != RUNNABLE)
           continue;
 
-        if(hpriority -> priority > t->priority)
-          hpriority = t;  
+        if(HP-> priority > t->priority)
+          HP= t;  
       }
-      p = hpriority; 
+      p = HP;
 
 
 
