@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
     {
         for (int i = 0; i < 1000; i++) //delay for waiting for child
         {
-            printf(1, "%d", i);
+            printf(1, "%d\n", i);
         }
         childpid = waitx(&wtime, &rtime);
 
